@@ -31,8 +31,7 @@ The flattened tree should look like:
 
 
  * Solution 1: scan all the nodes in tree and
-   Time Complexity : O(n), although there are cases where we need to traverse the left subtree till the end, it is not happening for
-      each node in the tree. Hence still need to figure out should time complexity be O(n^2) or not.
+   Time Complexity : O(n), (worst case we have time complexity as O(2*n) as for each node we may need to traverse the subtree for that node as root again )
  * Space complexity :O(1)
  */
 

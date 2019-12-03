@@ -6,7 +6,7 @@
 
 // Your code here along with comments explaining your approach
 class MinWindowSubString {
-    public String minWindow(String s, String t) {
+        public String minWindow(String s, String t) {
         if(t.length() > s.length() || s.length() == 0 || t.length() == 0){return "";}
         Map<Character,Integer> tMap = new HashMap<>();
         for(char ch : t.toCharArray()){
@@ -15,7 +15,7 @@ class MinWindowSubString {
         int count = tMap.size();
         Map<Character,Integer> sMap = new HashMap<>();
         int left = 0, right = 0;
-        String result = "";
+        Integer leftIndex = null, rightIndex = null;
         while(right < s.length()){
             System.out.println(count +" " +sMap);
             char ch = s.charAt(right);
@@ -24,10 +24,9 @@ class MinWindowSubString {
                 count--;
             }
             while(count == 0 && left <= right){
-                String res = s.substring(left,right+1);
-                System.out.print(res+" ");
-                if(result.equals("") || result.length() > res.length()){
-                    result = res;
+                if(leftIndex == null ||  rightIndex - leftIndex > right - left){
+                    rightIndex = right;
+                    leftIndex = left;
                 }
                 char ch1 = s.charAt(left);
                 sMap.put(ch1,sMap.get(ch1)-1);
@@ -38,6 +37,6 @@ class MinWindowSubString {
             }
             right++;
         }
-    return result;
+    return leftIndex == null ? "":s.substring(leftIndex,rightIndex+1);
     }
 }

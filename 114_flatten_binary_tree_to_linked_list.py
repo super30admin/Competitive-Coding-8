@@ -31,3 +31,25 @@ class Solution:
             if stack:
                 cur.right = stack[-1]
             cur.left = None
+
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        """
+            Time Complexity - O(n)
+            'n' is the number of nodes
+            Space Complexity - O(h) (recursive stack space)
+            'h' is the height of the tree
+        """
+        return self._helper(root, None)
+
+    def _helper(self, root: TreeNode, pre: TreeNode):
+        if not root:
+            return pre
+        pre = self._helper(root.right, pre)
+        pre = self._helper(root.left, pre)
+        root.right = pre
+        root.left = None
+        pre = root
+        return pre

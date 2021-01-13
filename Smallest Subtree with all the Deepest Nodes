@@ -1,0 +1,82 @@
+//TC: O(n^2)
+//SC: O(n) - recursive stack
+
+//Approach 1: Idea is to calculate height of left and right subtree for each node and 
+//Based on difference in height, we make decision to move left or right
+//To Calculate height, we can make recursive call until we reach to leaf node from current node and start adding 1 until we rach back current node
+// Lowest Common Ancestor + MaxHeight of Subtree
+
+class Solution {
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        if(root==null){
+            return root;
+        }
+        
+        int left = dfs(root.left);
+        int right = dfs(root.right);
+        //Similar to LowestCommonAncestor logic
+        // System.out.println(root.val + " l:" + left + " r: " + right);
+        if(left==right){
+            return root;
+        }
+        else if(left > right){
+            return subtreeWithAllDeepest(root.left);
+        }
+        else{
+            return subtreeWithAllDeepest(root.right);
+        }
+    }
+    
+    private int dfs(TreeNode root){
+        if(root==null){
+            return 1;
+        }
+        //recursive call till we reach the leaf node from current node  and we do this for every node(n^2)
+        return 1 + Math.max(dfs(root.left),dfs(root.right));
+    }
+}
+
+
+//TC: O(N)
+//SC: O(H)
+
+//Approach: Idea is to use HashMap to store the information on node and it's level from it's leaf node
+//Eliminates the task of calculating height of subtree at each level
+// Same LowestCommonAncestor logic applied after storing depth and starting to traverse from root
+
+class Solution {
+    HashMap<TreeNode , Integer> hmap;
+    int level = 0;
+    public TreeNode lcaDeepestLeaves(TreeNode root) {
+        if(root==null){
+            return null;
+        }
+        
+        hmap = new HashMap<>();
+        depth(root,0);   
+        return dfs(root);
+    }
+    private int depth(TreeNode root, int level){
+        if(root==null){
+            return level;
+        }
+        if(!hmap.containsKey(root)){
+            hmap.put(root, 1 + Math.max(depth(root.left,level),depth(root.right,level)));
+        }
+        return hmap.get(root);
+    }
+    
+    private TreeNode dfs(TreeNode root){
+        int left = depth(root.left,level);
+        int right = depth(root.right,level);
+        if(left == right){
+            return root;
+        }
+        else if(left > right){
+            return dfs(root.left);
+        }
+        else{
+            return dfs(root.right);
+        }
+    }
+}

@@ -8,6 +8,9 @@
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
+ Time Complexity = O(N)
+ Space Complexity = O(h)
+ where n is the number of nodes of the tree and h is the height of the tree.
  */
 class Solution {
 public:

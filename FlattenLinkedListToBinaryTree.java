@@ -35,8 +35,25 @@ TreeNode node = stack.pop();
 7) as it is a stack, LIFO Approach we need left first thus we dont want them to go down the stack.
 */
 
+import java.util.*;
+
+
 
 public class FlattenLinkedListToBinaryTree{
+
+    class TreeNode{
+
+        int val;
+
+        public TreeNode(int val)
+        {
+            this.val=val;
+        }
+        TreeNode left;
+        TreeNode right;
+
+    }
+
     public void flatten(TreeNode root) {
         
         if(root==null)

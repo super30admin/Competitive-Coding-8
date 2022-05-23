@@ -21,7 +21,7 @@ class TreeNode {
 
 public class FlattenBinaryTree {
 
-    // TC: O(n)
+    // TC: O(n) - number of nodes in a given tree
     // SC: O(1) - only two elements will be present in the stack at a given time
     public void flatten(TreeNode root) {
         if(root == null) return;

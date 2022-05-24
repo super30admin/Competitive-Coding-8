@@ -37,7 +37,7 @@ public class MinimumWindowSubstring {
          * If the value of match equals the size of map then it means that we found all the
          * characters from t in s in that window. Whenever, we are sliding the window and a
          * character from t in s moves out of the window then we increment the count of that character in
-         * the map and if the value in the map becomes its original count then we decrease the match value
+         * the map and if the value in the map becomes greater than 0 then we decrease the match value
          * as one of the matching characters moved out of the window */
         int match = 0;
         int windowLength = Integer.MAX_VALUE;

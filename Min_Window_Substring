@@ -1,0 +1,53 @@
+//TimeComplexity O(m) + O(n)
+//SpceComplexity O(n)
+
+class Solution {
+    public String minWindow(String s, String t) {
+        int m = s.length();
+        int n = t.length();
+
+        HashMap<Character,Integer> map = new HashMap<>();
+        String result = "";
+
+        if(s.length() == 0 || t.length() == 0 || m < n)return result;
+
+
+        for(int i = 0; i < n; i++){
+            char ch = t.charAt(i);
+            map.put(ch,map.getOrDefault(ch,0)+1);
+        }
+
+        int start = 0;
+        int end = 0;
+        int found = 0;
+        int min = Integer.MAX_VALUE;
+        int len = 0;
+
+        while(end < m){
+            char ch = s.charAt(end);
+
+            if(map.containsKey(ch)){
+                map.put(ch,map.get(ch)-1);
+                if(map.get(ch) == 0)found++;
+            }
+            end++;
+
+            while(found == map.size()){
+                len = end - start;
+
+                if(len < min){
+                    result = s.substring(start,end);
+                    min = len;
+                }
+
+                if(map.containsKey(s.charAt(start))){
+                map.put(s.charAt(start),map.get(s.charAt(start))+1);
+                if(map.get(s.charAt(start)) == 1)found--;
+            }
+            start++;      
+            }  
+        }
+
+        return result;
+    }
+}

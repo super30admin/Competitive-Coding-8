@@ -1,0 +1,56 @@
+//BruteForce
+
+//TimeComplexity O(n)
+//SpaceComplexity O(n)
+
+class Solution {
+    List<Integer> list;
+    public void flatten(TreeNode root) {
+
+        if(root == null)return;
+
+        list = new ArrayList<>();
+
+        preorder(root);
+
+        for(int i = 1; i< list.size(); i++){
+            root.left = null;
+            root.right = new TreeNode(list.get(i));
+            root = root.right;
+        }
+    }
+
+    private void preorder(TreeNode root){
+        if(root == null)return;
+
+        list.add(root.val);
+        preorder(root.left);
+        preorder(root.right);
+    }
+}
+
+//Timecomplexity O(n)
+//SpaceComplexity O(h)
+
+class Solution {
+    public void flatten(TreeNode root) {
+        if(root == null || root.left == null && root.right == null)return;
+        
+    
+        flatten(root.left);
+        TreeNode right = root.right;
+        root.right = root.left;
+        root.left = null;
+        while(root.right != null){
+            root = root.right;
+    
+        }
+            root.right = right;
+      
+
+        flatten(root.right);
+        
+
+        
+    }
+}

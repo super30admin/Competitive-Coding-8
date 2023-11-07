@@ -1,0 +1,79 @@
+// Time Complexity:  O(n)
+// Space Complexity: O(h)
+//
+// where n is number of nodes in tree, h is height of tree
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+
+    TreeNode prev = null;
+
+    public void flatten(TreeNode root) {
+        
+        if(root == null)
+            return;
+
+        flatten(root.right);
+        flatten(root.left);
+
+        root.right = prev;
+        root.left = null;
+        prev = root;
+
+    }
+}
+
+
+
+// // ******************** Another method ********************
+/**
+class Solution {
+    public void flatten(TreeNode root) {
+        if(root == null)
+            return;
+        flatternHelper(root);
+    }
+    
+    private TreeNode flatternHelper(TreeNode root) {
+        
+        if(root == null)
+            return root;
+        
+        if(root.left == null && root.right == null)
+            return root;
+        
+        TreeNode left = flatternHelper(root.left);
+        TreeNode right = flatternHelper(root.right);
+        
+        if(right == null)
+            root.right = left;
+        
+        else if(left != null) {
+            root.right = left;
+            while(left.right != null) {
+                left = left.right;
+            }
+            left.right = right;
+        }
+        
+        root.left = null;
+        
+        return root;
+    }
+}
+*/

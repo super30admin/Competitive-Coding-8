@@ -1,0 +1,41 @@
+Space complexity: O(m)
+Time complexity: O(m + n)
+
+Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        # Step 1: Initialize pointers, dictionaries, and variables
+        left = 0
+        min_window = ""
+        required_chars = {}
+        window_chars = {}
+        required_count = len(t)
+
+        # Step 2: Populate required_chars dictionary
+        for char in t:
+            required_chars[char] = required_chars.get(char, 0) + 1
+
+        # Step 3: Initialize the right pointer and start iterating over string s
+        for right, char in enumerate(s):
+            # Update window_chars dictionary
+            window_chars[char] = window_chars.get(char, 0) + 1
+
+            # Check if the character at the right pointer is required
+            if char in required_chars and window_chars[char] <= required_chars[char]:
+                required_count -= 1
+
+            # Step 6: Start contracting the window
+            while required_count == 0:
+                # Update min_window if necessary
+                if not min_window or right - left + 1 < len(min_window):
+                    min_window = s[left:right + 1]
+
+                # Remove the character at the left pointer from window_chars
+                left_char = s[left]
+                window_chars[left_char] -= 1
+                left += 1
+
+                # Check if the left character is required
+                if left_char in required_chars and window_chars[left_char] < required_chars[left_char]:
+                    required_count += 1
+
+        return min_window

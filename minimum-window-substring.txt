@@ -1,0 +1,39 @@
+Time complexity: O(len of s+ len of t)
+Space complexity: O(1)
+Approach:
+Step1: Get the frequency of all characters from String t.
+Step2: Initialize the counter to length of String t. Traverse String S and decrement the counter when the frequency of the character is more then zero. Also reduce the frequency of a character after traversal, increment keep increment end pointer until end of String s.
+Step3: During traversal of S, when the counter is zero then we found our first string that has all characters of t. But remember we have to find minimum window substring.
+Step4: Slide the start pointer to reduce the window size and see we can find the minimum window length.
+Step5: Note that frequency of an elemnt is  1 only for the elements in t. when start pointer is incremented we need to understand its impact on the counter, hence revert the frequency value and check if
+frequency[startChar]>0 , If yes, increment counter, because frequency is 1 only for the elements in t. We need to find a string that staisfies all characters in t.
+class Solution {
+    public String minWindow(String s, String t) {
+        int[] frequency= new int[128];
+        for(char c:t.toCharArray())
+        frequency[c]++;
+
+        int start=0; int end =0; 
+        int minLen=Integer.MAX_VALUE; int counter=t.length(); int minStart=0;
+        while(end<s.length()){
+            char c=s.charAt(end);
+            if(frequency[c]>0)
+            counter--;
+            frequency[c]--;
+            end++;
+            while(counter==0){
+                if(minLen>end-start){
+                    minLen=end-start;
+                    minStart=start;
+                }
+
+                char startChar=s.charAt(start);
+                frequency[startChar]++;
+                if(frequency[startChar]>0)
+                counter++;
+                start++;
+            }
+        }
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(minStart, minStart+minLen);
+    }
+}

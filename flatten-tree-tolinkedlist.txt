@@ -1,0 +1,32 @@
+Time Complexity: O(n): n: number of elements in input.
+Space Complexity: O(h) Stack space
+Approach: Traverse through right node first, followed by left and further followed by root. 
+During traversal point out right element to prev and prev is always a prior visited root node.
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    TreeNode prev=null;
+    public void flatten(TreeNode root) {
+        if(root!=null) revPreOrder(root);        
+    }
+    public void revPreOrder(TreeNode node){
+        if(node.right!=null) revPreOrder(node.right);
+        if(node.left!=null) revPreOrder(node.left);
+        node.left=null;
+        node.right=prev;
+        prev=node;
+    }
+}

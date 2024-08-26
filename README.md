@@ -1,3 +1,6 @@
 # Competitive-Coding-8
 
-Please submit the interview problems posted in slack channel here. The problems and statements are intentionally not shown here so that students are not able to see them in advance 
+## Problem1: Minimum window substring (https://leetcode.com/problems/minimum-window-substring/)
+
+
+## Problem2: Flattening a Binary Tree to a Linked List(https://leetcode.com/problems/flatten-binary-tree-to-linked-list/)

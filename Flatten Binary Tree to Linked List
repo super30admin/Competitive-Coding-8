@@ -1,0 +1,31 @@
+//TC: O(n) ??
+//SC: O(n)
+
+//Approach: 
+
+class Solution {
+    public void flatten(TreeNode root) {
+        if(root==null){
+            return;
+        }
+        
+        //leafNode
+        if(root.left==null && root.right==null ){
+            return;
+        }
+        
+        if(root.left!=null){
+            flatten(root.left);
+            TreeNode tempRight = root.right;
+            root.right = root.left;
+            root.left=null;
+            //Imp. part to move until leaf node of right child to start adding new nodes
+            while(root.right!=null){
+                root = root.right;
+            }
+            root.right = tempRight;
+        }
+        //Recursive call on right child when all left chilren explored for root   
+        flatten(root.right);
+    }
+}

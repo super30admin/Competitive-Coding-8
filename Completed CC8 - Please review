@@ -1,0 +1,101 @@
+PROBLEM 1 - Flatten binary tree to linkedlist
+// Time Complexity :O(n)
+// Space Complexity :O(1)
+// Did this code successfully run on Leetcode :Yes
+
+class Solution {
+    func flatten(_ root: TreeNode?) {
+        guard let root = root else{ return }
+        
+        var stack = [TreeNode]()
+        stack.append(root)
+        while !stack.isEmpty {
+            let node = stack.removeLast()
+            if let right = node.right{
+                stack.append(right)
+            }
+            if let left = node.left{
+                stack.append(left)
+            }
+            
+            if !stack.isEmpty{
+                node.right = stack.last
+            }
+            node.left = nil
+            }
+        }
+    func flatten_recursive(_ root: TreeNode?) {
+        guard let root = root else{ return }
+        
+       let left = root.left
+        let right = root.right
+        
+        root.left = nil
+        flatten_recursive(left)
+        flatten_recursive(right)
+        root.right = left
+        
+        var node = root
+        while let rightNode = node.right{
+            node = rightNode
+        }
+            node.right = right
+        }
+    
+}
+
+PROBLEM 2 - Minimum Window Substring
+// Time Complexity :
+// Space Complexity :
+// Did this code successfully run on Leetcode :Yes
+
+class Solution {
+    func minWindow(_ s: String, _ t: String) -> String {
+        var needMap = [Character:Int]()
+        for char in s {
+            needMap[char] = 0
+        }
+        for char in t {
+            if needMap[char] != nil {
+                needMap[char] = needMap[char]! + 1
+            }
+            else {
+                 needMap[char] = 1
+            }
+        }
+        
+        var start = 0
+        var end = 0
+        var minLength = Int.max
+        var minStart = 0
+        var missing = t.count
+        var s = Array(s)
+        
+        while(end < s.count) {
+            let current = s[end]
+            if(needMap[current]! > 0) {
+                missing -= 1
+            }
+            needMap[current] = needMap[current]! - 1
+            
+            while(missing == 0) {
+                if(minLength > end - start + 1) {
+                    minLength =  end - start + 1
+                    minStart = start
+                }
+                
+                let head = s[start]
+                if(needMap[head]! >= 0) {
+                    missing += 1
+                }
+                needMap[head] = needMap[head]! + 1
+                start += 1
+            }
+            end += 1
+        }
+        
+        return minLength == Int.max ? "" : String(s[minStart..<minStart + minLength])
+        
+    }
+}
+

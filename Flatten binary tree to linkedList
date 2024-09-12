@@ -1,0 +1,33 @@
+// O(N) time complexity
+// O(N) space complexity
+/*class Solution {
+// Right Left Root
+    TreeNode prev = null;
+    public void flatten(TreeNode root) {
+        if(root == null) return;
+        flatten(root.right);
+        flatten(root.left);
+        // flattening
+        root.right = prev;
+        root.left = null;
+        prev = root;
+        
+    }
+}*/
+// time complexity : O(N)
+// sapce complexity : O(N)
+class Solution{
+    // Left root right
+    public void flatten(TreeNode root){
+        if(root == null || root.left == null && root.right == null) return;
+        while(root.left != null){
+        flatten(root.left);
+        TreeNode right_tree = root.right;
+        root.right = root.left;
+        root.left = null;
+        while(root.right != null) root = root.right;
+        root.right = right_tree;
+        }
+        flatten(root.right);
+    }
+}

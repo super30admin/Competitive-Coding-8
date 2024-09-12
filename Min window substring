@@ -1,0 +1,38 @@
+// Time complexity: O(s+t)
+// space complexity : O(t)
+class Solution {
+    public String minWindow(String s, String t) {
+        if(t.length() > s.length()) return "";
+        HashMap<Character, Integer> map = new HashMap<>();
+        // hashmap for T
+        for(int i = 0; i < t.length(); i++){
+            map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0)+1);
+        }
+        String result = "";
+        int min = s.length();
+        int counter = map.size();
+        int begin = 0;
+        for(int i = 0; i < s.length(); i++){
+            char ch = s.charAt(i);
+            if(map.containsKey(ch)){
+                map.put(ch, map.get(ch)-1);
+                if(map.get(ch) == 0)
+                    counter--;
+            }
+            while(counter == 0){
+                int size = i-begin+1;
+                if(min >= size){
+                    min = size;
+                    result = s.substring(begin, i+1);
+                }
+                if(map.containsKey(s.charAt(begin))){
+                    map.put(s.charAt(begin), map.get(s.charAt(begin))+1);
+                    if(map.get(s.charAt(begin)) > 0)
+                        counter++;
+                }
+                begin++;
+            }
+        }
+        return result;
+    }
+}

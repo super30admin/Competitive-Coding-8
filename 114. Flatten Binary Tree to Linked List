@@ -1,0 +1,43 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    
+    def preorder(self, root, prev):
+        if(not root):
+            return
+        # store left and right childs of root node in two variables
+        templeft, tempright = root.left, root.right;
+        if(not prev[0]):
+            prev[0] = root;  
+        else:
+            # link current node as right child to prev visited node   
+            prev[0].right = root;
+            prev[0] = root
+        
+        # update left child of root node as None
+        root.left = None;
+        
+        # visit left subtree of current node
+        
+        self.preorder(templeft, prev);
+        
+        # visit the right subtree of current node
+        self.preorder(tempright, prev)
+    
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        prev = [None]
+        self.preorder(root, prev);
+        return root;
+    
+    '''
+    time complexity = O(n)
+    space complexity = O(h)
+    '''
+        

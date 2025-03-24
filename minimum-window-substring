@@ -1,0 +1,54 @@
+// Time Complexity :O(n)+O(m)
+// Space Complexity :O(n)
+// Did this code successfully run on Leetcode :yes
+// Any problem you faced while coding this :no
+
+
+// Your code here along with comments explaining your approach:i have solved this by using slidding window pattern
+
+class Solution {
+    public String minWindow(String s, String t) {
+        int m = s.length(); //source string length
+        int n = t.length(); //pattern string length
+        int minWindow = Integer.MAX_VALUE; //min window which we found so far
+        String minWindowStr = ""; //min widnow size which we found so far
+        int match = 0; //to maintain no.of required character matched so far
+        HashMap<Character, Integer> myMap = new HashMap<>();
+        for (int i = 0; i < n; i++) {//O(n)
+            char ch = t.charAt(i);
+            myMap.put(ch, myMap.getOrDefault(ch, 0) + 1);//frequency updating
+        }
+        int i = 0; //first pointer
+        for (int j = 0; j < m; j++) {//O(m) //secoond pointer
+            char in = s.charAt(j); // from source
+            if (myMap.containsKey(in)) {//O(1)
+                int fre = myMap.get(in); //getting frequency from map of pattern string
+                fre--; //as char maches decreasing its frequency to mark as matched
+                if (fre == 0) { //if frequncy become zero :we got number of char from soruce which we required for pattern
+                    match++; //so that incremening our match count as we got one char full frequency from src
+                }
+                myMap.put(in, fre); //updating freq to map
+            }
+            while (match == myMap.size()) {//where we found match count as our map size then it means we found a complete match for our pattern as required
+                String currMinWindowStr = s.substring(i, j + 1); // substring where we found all charatcers from pattern
+                int currMinWindow = j - i + 1; //size of substring
+                if (currMinWindow < minWindow) { //checking for min windowsize with previous one
+                    minWindowStr = currMinWindowStr; //updating if current window size is lesser than pevious
+                    minWindow = currMinWindow;
+                }
+                char out = s.charAt(i); //as we sliding the window checking if i th char exist in map 
+                if (myMap.containsKey(out)) { 
+                    int fre = myMap.get(out);
+                    fre++;  //just incremening the freq and reducing the match count as we need to know that we are missing one match 
+                    if (fre == 1) {
+                        match--;
+                    }
+                    myMap.put(out, fre);//updating freq
+                }
+                i++;//sliding window one step forward
+            }
+        }
+        return minWindowStr;//finally return the min window size which we found till now
+
+    }
+}

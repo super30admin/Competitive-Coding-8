@@ -1,0 +1,49 @@
+// Time Complexity :O(n)
+// Space Complexity :O(h)recursive stack space
+// Did this code successfully run on Leetcode :yes
+// Any problem you faced while coding this :no
+
+
+// Your code here along with comments explaining your approach:recursvie approach here using same tree to traverse but before making left and right pointers to the root we are storing left and right sub trees of root nodes because we are missing previous original connections while making new connections
+
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ * int val;
+ * TreeNode left;
+ * TreeNode right;
+ * TreeNode() {}
+ * TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) {
+ * this.val = val;
+ * this.left = left;
+ * this.right = right;
+ * }
+ * }
+ */
+class Solution {
+    TreeNode prev;
+
+    public void flatten(TreeNode root) {
+        helper(root);//start recursion
+    }
+    public void helper(TreeNode root) {
+        if (root == null) { // base case
+            return;
+        }
+        TreeNode left = root.left; // Store left subtree
+        TreeNode right = root.right; // store right subtree
+        //action
+        if (prev != null) { // null check
+            prev.right = root; // new right connection to root
+            prev.left = null;// new left connection to root
+        }
+        head = root; // moving prev to root
+          //recurse
+        helper(left);
+        helper(right);
+
+    }
+}

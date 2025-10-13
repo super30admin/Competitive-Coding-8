@@ -1,0 +1,49 @@
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+
+// Do post-order traversal and keep track of the left and right child of a node
+// if the left child is not null then rearrange the pointers of the children to get a right skewed tree for that node
+// Return the node
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public void flatten(TreeNode root) {
+        helper(root);
+    }
+
+    private TreeNode helper(TreeNode curr) {
+        if(curr == null)
+            return null;
+        
+        TreeNode l = helper(curr.left);
+        TreeNode r = helper(curr.right);
+        if(l != null && r == null) {
+            curr.right = l;
+            curr.left = null;
+        }
+        else if(l != null && r != null) {
+            TreeNode temp = l;
+            while(temp.right != null)
+                temp = temp.right;
+            temp.right = r;
+            curr.right = l;
+            curr.left = null;
+        }
+        return curr;
+    }
+
+}

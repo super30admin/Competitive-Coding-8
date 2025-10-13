@@ -1,0 +1,46 @@
+// Time Complexity: O(m + n)
+// Space Complexity: O(n)
+
+// Keep track of the frequency of characters in the string t in a hashmap and a match count = size of the map
+// Iterate through the string s and decrement frequency in map if a character is present in the map and reduce match count by 1 when a frequency becomes 0
+// When match count becomes 0 calculate the string length of current string and then move the left pointer to see if a smaller string can be found
+
+class Solution {
+    public String minWindow(String s, String t) {
+        HashMap<Character, Integer> mp = new HashMap<>();
+        for(char ch : t.toCharArray()) {
+            mp.put(ch, mp.getOrDefault(ch, 0) + 1);
+        }
+
+        int start = 0, l = 0;
+        int length = Integer.MAX_VALUE;
+        int match = mp.size();
+
+        for(int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if(mp.containsKey(ch)) {
+                mp.put(ch, mp.get(ch)-1);
+                if(mp.get(ch) == 0)
+                    match--;
+
+            }
+            
+            while(match == 0) {
+                if(i - l + 1 < length) {
+                    length = i - l + 1;
+                    start = l;
+                }
+                char chLeft = s.charAt(l);
+                if(mp.containsKey(chLeft)) {
+                    mp.put(chLeft, mp.get(chLeft)+1);
+                    if(mp.get(chLeft) == 1)
+                        match++;
+                }
+                l++;
+            }
+        }
+        if(length != Integer.MAX_VALUE)
+            return s.substring(start, start + length);
+        return "";
+    }
+}
